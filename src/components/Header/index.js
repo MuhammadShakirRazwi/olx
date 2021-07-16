@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import "./index.css";
 import Logo from "./assets/olx-logo.svg";
 import Dropdown from "./assets/dropdown.svg";
+import LoginModal from "../LoginModal";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -16,11 +17,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header({ handleScreenChange }) {
   const classes = useStyles();
+  const [toggleModal, setToggleModal] = useState(false);
+
+  const handleOpen = () => setToggleModal(true);
+  const handleClose = () => setToggleModal(false);
   return (
     <div className={classes.root}>
       <header className="header">
+        <LoginModal toggleModal={toggleModal} handleClose={handleClose} />
         <Grid container className={classes.navgrid} spacing={2}>
           <Grid item className="logoWrapper">
             <div className="logo-container">
@@ -78,6 +84,21 @@ export default function Header() {
                 </svg>
               </button>
             </div>
+          </Grid>
+          <Grid item>
+            <div className="Login">
+              <button onClick={handleOpen}>Login/SignUp</button>
+            </div>
+          </Grid>
+          <Grid item>
+            <button
+              className="sell-button"
+              onClick={() => {
+                handleScreenChange([], "add-item");
+              }}
+            >
+              Sell
+            </button>
           </Grid>
         </Grid>
       </header>

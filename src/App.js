@@ -2,40 +2,44 @@ import { useState, useEffect } from "react";
 import Homepage from "./screens/Homepage";
 import AdDetails from "./screens/AdDetails";
 import { getAllAds } from "./config/firebase";
+import FormPage from "./screens/FormPage";
+import Header from "./components/Header";
+import Grid from "@material-ui/core/Grid";
 
 function App() {
   const [tempAd, setTempAd] = useState([]);
   const [currentScreen, setCurrentScreen] = useState("home");
   const [ads, setAds] = useState([]);
-  const data = [
-    {
-      picURL:
-        "https://cdn.jsdelivr.net/gh/MuhammadShakirRazwi/CDNcontent@main/sofa.jfif",
-      price: "30000RS",
-      title: "Sofa",
-      location: "Karachi,Pakistan",
-      condition: "used",
-      type: "furniture",
-      description: "lorem ipsum dolor sit amet",
-    },
-  ];
-  useEffect(async () => {
+  useEffect(() => {
     getAllAds((data) => {
       setAds([...data]);
     });
   }, []);
 
-  const handleScreenChange = (item) => {
+  const handleScreenChange = (item, screenName) => {
     setTempAd(item);
-    setCurrentScreen("ad-details");
+    setCurrentScreen(screenName);
   };
   return (
     <div className="App">
-      {currentScreen === "home" ? (
-        <Homepage data={ads} handleScreenChange={handleScreenChange} />
-      ) : (
-        <AdDetails data={tempAd} />
-      )}
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Header handleScreenChange={handleScreenChange} />
+        </Grid>
+        {currentScreen === "home" ? (
+          <Grid item xs={12}>
+            <Homepage data={ads} handleScreenChange={handleScreenChange} />
+          </Grid>
+        ) : currentScreen === "ad-details" ? (
+          <Grid item xs={12}>
+            <AdDetails data={tempAd} />
+          </Grid>
+        ) : currentScreen === "add-item" ? (
+          <Grid item xs={12}>
+            <FormPage />
+          </Grid>
+        ) : null}
+      </Grid>
     </div>
   );
 }

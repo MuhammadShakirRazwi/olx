@@ -1,6 +1,5 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import Header from "../../components/Header";
 import "./index.css";
 import Dropdown from "./dropdown.svg";
 
@@ -8,9 +7,6 @@ export default function Homepage(props) {
   return (
     <div>
       <Grid container>
-        <Grid item xs={12}>
-          <Header />
-        </Grid>
         <Grid item xs={12}>
           <div className="bc-container">
             <div className="bcrumbs-container">
@@ -59,7 +55,7 @@ export default function Homepage(props) {
                     <div
                       className="item"
                       onClick={() => {
-                        props.handleScreenChange(item);
+                        props.handleScreenChange(item, "ad-details");
                       }}
                     >
                       <div className="pic-container">
